@@ -14,7 +14,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/players/:id" element={< Profile />}/>
-          <Route path="/players/:id/edit" element={< ProfileEdit />}/>
+          <Route path="/players/edit/:id" element={< ProfileEdit />}/>
           <Route path="/" element={< Landing />}/>
         </Routes>
       </Router>
