@@ -6,10 +6,13 @@ import '../styles/profile.css'
 
 export default function Profile() {
     const [player, setPlayer] = useState('');
+    const pathname = window.location.pathname
+    const getLastItem = thePath => thePath.substring(thePath.lastIndexOf('/') + 1)
+    const userId = getLastItem(pathname)
     
     useEffect(() => {
         const db = getDatabase();
-        const starCountRef = ref(db, '/users/' + 'yusuf');
+        const starCountRef = ref(db, '/users/' + userId);
         onValue(starCountRef, (snapshot) => {
             const data = snapshot.val();
             console.log(data.username);
