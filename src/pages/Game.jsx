@@ -1,10 +1,11 @@
-// import useState and useEffect from react hook
 import React, { useState, useEffect } from 'react';
+import { getDatabase, ref, onValue, update } from "firebase/database";
 
 import '../styles/game.css';
 
 export default function Game() {
     const [score, setScore] = useState(0);
+    const [totalScore, setTotalScore] = useState(0);
     const [comScore, setComScore] = useState(0);
     const [gameOver, setGameOver] = useState(false);
     const [play, setPlay] = useState(true);
@@ -18,16 +19,35 @@ export default function Game() {
         com_scissors: '',
     });
 
+    const userId = 'yusuf';
 
     useEffect(() => {
         console.log(score, comScore);
-        if (score === 2) {
-            console.log('you win');
-            handleReset();
-            setGameOver(true);
-        } else if (comScore === 2) {
-            console.log('you lose');
-            handleReset();
+        const db = getDatabase();
+        const scoreRef = ref(db, '/users/' + userId);
+        onValue(scoreRef, (snapshot) => {
+            const data = snapshot.val();
+            setTotalScore(data.score);
+        });
+
+        if(score === 2 || comScore === 2){
+            if (score === 2) {
+                console.log('you win');
+                const new_score = totalScore + 100;
+                setTotalScore(new_score);
+                // update score to firebase
+                update(scoreRef, {
+                    score: new_score,
+                });
+            } else if (comScore === 2) {
+                console.log('you lose');
+                const new_score = totalScore - 70;
+                setTotalScore(new_score);
+                // update score to firebase
+                update(scoreRef, {
+                    score: new_score,
+                });
+            }
             setGameOver(true);
         }
     }, [score, comScore])
@@ -51,7 +71,6 @@ export default function Game() {
             com_paper: '',
             com_scissors: '',
         });
-
         if(score === 2 || comScore === 2){
             setScore(0);
             setComScore(0);
@@ -61,7 +80,7 @@ export default function Game() {
 
     // function to handle click and add player score
     const handleClick = (choice) => {
-        if(play == true && gameOver == false) {
+        if(play === true && gameOver === false) {
             setPlay(false);
             // call getComChoice function to get computer choice
             const comChoice = getComChoice();
@@ -92,24 +111,21 @@ export default function Game() {
                 // if player choice is not equal to computer choice, add 1 to computer score
                 setComScore(comScore + 1);
             }
-
-
         }
-
     }
 
     return(
         <div id="rock-paper-scissors">
             <div>
                 <nav className="d-flex pt-3 ms-4">
-                    <a className="me-3" href="../index.html">
+                    <a className="me-3" href="/">
                         <img src="../../assets/icons/back.svg" alt="" width="30" height="24"/>
                     </a>
-                    <a className="me-3" href="#">
+                    <div className="me-3">
                         <img src="../../assets/icons/rps-logo.svg" alt="" width="30" height="30"/>
-                    </a>
+                    </div>
                     <div id="title">Rock Paper Scissors</div>
-                    <div id="total-score" className='ms-4'>| Your Score: 403</div>
+                    <div id="total-score" className='ms-4'>| Your Total Score: {totalScore}</div>
                 </nav>
             </div>
        
@@ -150,7 +166,7 @@ export default function Game() {
                             </ul>
                         </div>
                     </div>
-                    <div id="reset" className="reset d-flex justify-content-center" onClick={handleReset}>
+                    <div id="reset" className="reset d-flex justify-content-center choice" onClick={handleReset}>
                         <img src="../../assets/icons/refresh.svg" alt=""/>
                     </div>
                     <div className="row">
