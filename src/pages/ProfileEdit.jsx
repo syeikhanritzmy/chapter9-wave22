@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import { getDatabase, ref, onValue, set } from "firebase/database";
+import { getDatabase, ref, onValue, update } from "firebase/database";
 
 export default function ProfileEdit() {
     const [player, setPlayer] = useState({
@@ -32,12 +32,10 @@ export default function ProfileEdit() {
     function handleSubmit(e){
         e.preventDefault();
         const db = getDatabase();
-        set(ref(db, 'users/' + 'yusuf'), {
+        update(ref(db, 'users/' + userId), {
           username: e.target.username.value,
           email: e.target.email.value,
           bio: e.target.bio.value,
-          score: player.score,
-          rank: player.rank,
         });
       }
 
