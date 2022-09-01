@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
+
+#rock-paper-scissors{
+    font-family: 'Open Sans', sans-serif;
+    background: #9C835F;
+    height: 100vh;
+    width: 100vw;
+}
+
+#rock-paper-scissors nav #title{
+
+    color: #F9B23D;
+}
+
+#rock-paper-scissors nav #total-score{
+    color: #483517;
+}
+
+#game-rps .choice{
+    cursor: pointer;
+    
+}
+
+#game-rps .choice img{
+    transition-duration: .3s;
+}
+
+#game-rps .choice:hover img{
+    transform: rotate(28.87deg);
+}
+
+
+
+#game-rps {
+    margin-top: 100px;
+}
+
+
+#game-rps ul li{
+    height: 100px;
+    width: 100px;
+    margin: 4px;
+    list-style: none;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#game-rps ul li img{
+    max-height: 90px;
+    max-width: 90px;
+}
+
+#game-rps #result{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#game-rps #result h1{
+    font-size: 80px;
+    color: #BD0000;
+}
+
+#game-rps #result .game-result{
+    
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+    border-radius: 10px;
+    transform: rotate(-28.87deg);
+}
+
+#game-rps .picked{
+    background: #c29a5b;
+}
