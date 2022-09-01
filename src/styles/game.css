@@ -72,8 +72,6 @@
     transform: rotate(-28.87deg);
 }
 
-.com_answer{
-    padding:5px;
-    margin: 5px;
-    /* background-color: #C4C4C4; */
+#game-rps .picked{
+    background: #c29a5b;
 }
