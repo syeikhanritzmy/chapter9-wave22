@@ -1,21 +1,31 @@
 import {useEffect, useState} from "react";
 import { getDatabase, ref, onValue } from "firebase/database";
-
+import { getAuth, onAuthStateChanged  } from "firebase/auth";
+import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/profile.css'
 
 export default function Profile() {
     const [player, setPlayer] = useState('');
+    const [enableEdit, setEnableEdit] = useState(false);
     const pathname = window.location.pathname
     const getLastItem = thePath => thePath.substring(thePath.lastIndexOf('/') + 1)
     const userId = getLastItem(pathname)
-    
+
+    const auth = getAuth();
+
+
     useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+              const uid = user.uid;
+              if (uid === userId){ setEnableEdit(true)}
+            } 
+        });
         const db = getDatabase();
         const starCountRef = ref(db, '/users/' + userId);
         onValue(starCountRef, (snapshot) => {
             const data = snapshot.val();
-            console.log(data.username);
             setPlayer({
                 username: data.username,
                 email: data.email,
@@ -56,13 +66,9 @@ export default function Profile() {
                                         <td>Total Score:</td>
                                         <td>{player.score}</td>
                                     </tr>
-                                    <tr>
-                                        <td>Global Rank:</td>
-                                        <td>{player.rank}</td>
-                                    </tr>
                                 </tbody>
                             </table>
-                            <button className='btn btn-sm btn-warning'>Edit Profile</button>
+                            {enableEdit ? <Link className="btn btn-warning" to={ `/players/edit/${userId}` }>Edit Profile</Link> : ''}
                         </div>
                         </div>
                     </div>
