@@ -1,5 +1,7 @@
 import { Formik, Form } from 'formik';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import LoginInput from '../../components/inputs/loginInput';
@@ -13,6 +15,15 @@ export default function Login() {
   const [login, setLogin] = useState(loginState);
   const { email, password } = login;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigate('/homepage');
+      }
+    });
+  }, []);
+
   const handleOnchangeInput = (e) => {
     const { name, value } = e.target;
     setLogin({
@@ -20,7 +31,6 @@ export default function Login() {
       [name]: value,
     });
   };
-  console.log(login);
   const loginValidation = Yup.object({
     email: Yup.string()
       .required('Email address is required.')
@@ -28,6 +38,17 @@ export default function Login() {
       .max(50),
     password: Yup.string().required('password is required'),
   });
+
+  const AuthLogin = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(auth, email, password);
+      console.log(user);
+      console.log(await user.user.getIdToken());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="container  ">
       <div className="row  justify-content-center   ">
@@ -73,9 +94,7 @@ export default function Login() {
                     <button
                       type="button"
                       className="btn btn-primary col-md-6 "
-                      onClick={() => {
-                        navigate('/homeGame');
-                      }}
+                      onClick={AuthLogin}
                     >
                       Log In
                     </button>
