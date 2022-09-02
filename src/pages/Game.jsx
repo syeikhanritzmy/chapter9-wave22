@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getDatabase, ref, onValue, update } from "firebase/database";
+import { getAuth, onAuthStateChanged  } from "firebase/auth";
+import {useNavigate} from "react-router-dom";
 
 import '../styles/game.css';
 
@@ -10,6 +12,8 @@ export default function Game() {
     const [gameOver, setGameOver] = useState(false);
     const [play, setPlay] = useState(true);
     const [result, setResult] = useState('VS');
+    const [userId, setUserId] = useState('');
+    const [player, setPlayer] = useState('Player 1');
     const [pick, setPick] = useState({
         rock: '',
         paper: '',
@@ -19,24 +23,38 @@ export default function Game() {
         com_scissors: '',
     });
 
-    const userId = 'yusuf';
+    const auth = getAuth();
 
+    const navigate = useNavigate();
+ 
     useEffect(() => {
         console.log(score, comScore);
         const db = getDatabase();
-        const scoreRef = ref(db, '/users/' + userId);
-        onValue(scoreRef, (snapshot) => {
-            const data = snapshot.val();
-            setTotalScore(data.score);
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const uid = user.uid;
+                setUserId(uid);
+                const scoreRef = ref(db, '/users/' + uid);
+                onValue(scoreRef, (snapshot) => {
+                    const data = snapshot.val();
+                    setTotalScore(data.score);
+                    setPlayer(data.username);
+                });
+            } else {
+                console.log('no user');
+                navigate('/login');
+            }
         });
-
+       
+        const _scoreRef = ref(db, '/users/' + userId);
         if(score === 2 || comScore === 2){
             if (score === 2) {
                 console.log('you win');
                 const new_score = totalScore + 100;
                 setTotalScore(new_score);
                 // update score to firebase
-                update(scoreRef, {
+                update(_scoreRef, {
                     score: new_score,
                 });
             } else if (comScore === 2) {
@@ -44,7 +62,7 @@ export default function Game() {
                 const new_score = totalScore - 70;
                 setTotalScore(new_score);
                 // update score to firebase
-                update(scoreRef, {
+                update(_scoreRef, {
                     score: new_score,
                 });
             }
@@ -134,7 +152,7 @@ export default function Game() {
                     <div className="row">
                         <div className="col-4 player-1  d-flex justify-content-center">
                             <ul className="player-wrapper">
-                                <h5 className="text-center mb-4">Player 1</h5>
+                                <h5 className="text-center mb-4">{player}</h5>
                                 <li className={`rock choice ${pick.rock}`} onClick={() => handleClick('rock')}>
                                     <img src="../../assets/images/batu.png" className="image-fluid" alt="Rock"/>
                                 </li>
