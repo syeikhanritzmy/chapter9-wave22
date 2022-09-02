@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import LoginInput from '../../components/inputs/loginInput';
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged  } from "firebase/auth";
 
 const loginState = {
   email: '',
@@ -11,9 +10,7 @@ const loginState = {
 };
 
 export default function Login() {
-  const auth = getAuth();
   const [login, setLogin] = useState(loginState);
-  const [uid, setUid] = useState('');
   const { email, password } = login;
   const navigate = useNavigate();
   const handleOnchangeInput = (e) => {
@@ -23,23 +20,7 @@ export default function Login() {
       [name]: value,
     });
   };
-  console.log(auth);
-onAuthStateChanged(auth, (user) => {
-  console.log("masuk");
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
-    const uid = user.uid;
-    console.log(uid);
-    setUid(uid);
-  } else {
-    // User is signed out
-    // ...
-    console.log("masuk else");
-  }
-});
-
-console.log(uid, "disini");
+  console.log(login);
   const loginValidation = Yup.object({
     email: Yup.string()
       .required('Email address is required.')
@@ -47,18 +28,6 @@ console.log(uid, "disini");
       .max(50),
     password: Yup.string().required('password is required'),
   });
-
-  function handleSubmit(e){
-    e.preventDefault();
-    signInWithEmailAndPassword(auth, e.target.email.value, e.target.password.value)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-      }).catch(error => {
-        console.log(error);
-      });
-    console.log("masuk" ,);
-  }
   return (
     <div className="container  ">
       <div className="row  justify-content-center   ">
@@ -71,7 +40,7 @@ console.log(uid, "disini");
           validationSchema={loginValidation}
         >
           {(formik) => (
-            <Form onSubmit={e => {handleSubmit(e)}}>
+            <Form>
               <div className="d-flex m-5 justify-content-center ">
                 <div className="col-md-6 border border-primary pb-5">
                   <h3 className="text-center pt-5 pb-4">Sign In</h3>
@@ -102,8 +71,11 @@ console.log(uid, "disini");
                   </div>
                   <div className="col-md-7 offset-md-3 ">
                     <button
-                      type="submit"
+                      type="button"
                       className="btn btn-primary col-md-6 "
+                      onClick={() => {
+                        navigate('/homeGame');
+                      }}
                     >
                       Log In
                     </button>
