@@ -10,6 +10,7 @@ import Profile from "./pages/Profile"
 import ProfileEdit from "./pages/ProfileEdit"
 import Login from './pages/login';
 import Game from "./pages/Game"
+import Rank from "./pages/Rank"
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/game/rps" element={< Game />}/>
           <Route path="/" element={< Landing />}/>
           <Route path="login" element={<Login />} />
+          <Route path="/rank/:id" element={< Rank />}/>
         </Routes>
     </div>
   );
