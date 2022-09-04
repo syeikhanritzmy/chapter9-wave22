@@ -1,5 +1,8 @@
 import {useEffect, useState} from "react";
-import { getDatabase, ref, onValue, set } from "firebase/database";
+import { getDatabase, ref, onValue, update } from "firebase/database";
+import { getAuth, onAuthStateChanged  } from "firebase/auth";
+
+import {Link, useNavigate} from 'react-router-dom';
 
 export default function ProfileEdit() {
     const [player, setPlayer] = useState({
@@ -9,10 +12,11 @@ export default function ProfileEdit() {
         score: '',
         rank: '',
     });
-
+    const navigate = useNavigate();
     const pathname = window.location.pathname
     const getLastItem = thePath => thePath.substring(thePath.lastIndexOf('/') + 1)
     const userId = getLastItem(pathname)
+    const auth = getAuth();
     
     useEffect(() => {
         const db = getDatabase();
@@ -31,16 +35,21 @@ export default function ProfileEdit() {
 
     function handleSubmit(e){
         e.preventDefault();
-        const db = getDatabase();
-        set(ref(db, 'users/' + 'yusuf'), {
-          username: e.target.username.value,
-          email: e.target.email.value,
-          bio: e.target.bio.value,
-          score: player.score,
-          rank: player.rank,
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+              const uid = user.uid;
+              if (uid === userId){ 
+                const db = getDatabase();
+                update(ref(db, 'users/' + userId), {
+                  username: e.target.username.value,
+                  email: e.target.email.value,
+                  bio: e.target.bio.value,
+                });
+              }
+            } 
         });
+        navigate(`/players/${userId}`);
       }
-
 
     const handleChange = (event) => {
         setPlayer({
@@ -60,8 +69,9 @@ export default function ProfileEdit() {
                         <div className="col-md-7 ps-4">
                         <div className="card-body">
                             <h1 className="card-title mb-4">Edit Profile</h1>
+                            <Link className="mb-4" to={`/players/${userId}`}>Back</Link>
                             <form onSubmit={e => {handleSubmit(e)}}>
-                                <div className="mb-3 row">
+                                <div className="my-3 row">
                                     <label htmlFor="nickname" className="col-sm-3 col-form-label" >Nickname</label>
                                     <div className="col-sm-9">
                                     <input type="text" className="form-control" name="username" value={player.username} onChange={handleChange} id="nickname"/>
@@ -85,13 +95,8 @@ export default function ProfileEdit() {
                                         <input type="text" readOnly className="form-control-plaintext" name="score" id="total-score" value={ player.score } onChange={handleChange}/>
                                     </div>
                                 </div>
-                                <div className="mb-3 row">
-                                    <label htmlFor="global-rank" className="col-sm-3 col-form-label">Global Rank</label>
-                                    <div className="col-sm-9">
-                                        <input type="text" readOnly className="form-control-plaintext" name="rank" id="global-rank" value={ player.rank } onChange={handleChange}/>
-                                    </div>
-                                </div>
                                 <button className='btn btn-success' type="submit">Save Profile</button>
+                                
                             </form>
                         </div>
                         </div>
