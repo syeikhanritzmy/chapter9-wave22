@@ -1,5 +1,7 @@
 export default function Landing() {
-    return(
-        <div><h1>Hello world</h1></div>
-    )
+  return (
+    <div>
+      <h1>THIS IS LANDING PAGE</h1>
+    </div>
+  );
 }
