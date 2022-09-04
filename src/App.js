@@ -12,6 +12,8 @@ import Login from './pages/login/login';
 import Game from './pages/Game';
 import Homepage from './pages/HomePage';
 import Register from './pages/login/Register';
+import Rank from "./pages/Rank"
+
 
 function App() {
   return (
@@ -24,6 +26,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/rank/:id" element={< Rank />}/>
       </Routes>
     </div>
   );
