@@ -49,7 +49,7 @@ export default function Register() {
   const writeDatabase = () => {
     const uuid = uid();
     set(
-      ref(db, `/users/${auth.currentUser.uid}/${uuid}`, {
+      ref(db, `/users/${auth.currentUser.uid}`, {
         uuid,
       }),
       {
