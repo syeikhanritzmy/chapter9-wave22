@@ -1,57 +1,36 @@
-import React, { useState } from "react";
-import Carousel from "react-bootstrap/Carousel";
+import React from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import Cards from "../components/card";
+import Carousels from "../components/carousel";
+import "../styles/landing.css";
 
-export default function Landing() {
-  const [index, setIndex] = useState(0);
+import { HashLink as Link } from "react-router-hash-link";
 
-  const handleSelect = (selectedIndex, e) => {
-    setIndex(selectedIndex);
-  };
+export default function Landing(props) {
   return (
-    <>
-      <Carousel activeIndex={index} onSelect={handleSelect}>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/people-playing-paper-rock-scissors-royalty-free-illustration-1583269312.jpg?crop=0.994xw:0.799xh;0.00160xw,0.195xh&resize=1600:*"
-            alt="First slide"
-          />
-          <Carousel.Caption>
-            <h3>Rock Paper Scissors</h3>
-            <p className="">
-              If you miss your childhood, we provide many traditional games here
-            </p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src="https://cdn.dribbble.com/users/67858/screenshots/2482202/attachments/1190214/coming_soon.png"
-            alt="Second slide"
-          />
-
-          <Carousel.Caption>
-            {/* <h3>Second slide label</h3> */}
-            <p>There's something really cool is coming ! Stay tuned </p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src="https://cdn.dribbble.com/users/67858/screenshots/2482202/attachments/1190214/coming_soon.png "
-            alt="Third slide"
-          />
-
-          <Carousel.Caption>
-            {/* <h3>Third slide label</h3> */}
-            <p>
-              <p>There's something really cool is coming ! Stay tuned </p>
-            </p>
-          </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
-      <Cards />
-    </>
+    <div>
+      {/* Intro section */}
+      <div className="myBG">
+        <div className=" intro">
+          <Container className="text-white d-flex justify-content-center align-items-center">
+            <Row>
+              <Col>
+                <h1 className="title">Welcome to the Game, {props.name}</h1>
+                <h3 className="d-flex justify-content-center title">
+                  Let's play some games !
+                </h3>
+                <Link to="#Cards" smooth>
+                  <Button className="primary my-2 w-50">PLAY GAME</Button>
+                </Link>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </div>
+      <div>
+        <Carousels />
+        <Cards />
+      </div>
+    </div>
   );
 }

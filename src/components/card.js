@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Cards() {
   return (
-    <div>
+    <div id="Cards">
       <h1>card</h1>
     </div>
   );

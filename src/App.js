@@ -23,7 +23,7 @@ function App() {
             <Route path="/players/:id" element={<Profile />} />
             <Route path="/players/edit/:id" element={<ProfileEdit />} />
             <Route path="/game/rps" element={<Game />} />
-            <Route path="/" element={<Landing />} />
+            <Route path="/" element={<Landing name="Guest" />} />
             <Route path="login" element={<Login />} />
           </Routes>
           <Footer />
