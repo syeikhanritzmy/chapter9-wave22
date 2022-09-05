@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getDatabase, ref, onValue, update } from "firebase/database";
 import { getAuth, onAuthStateChanged  } from "firebase/auth";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 import '../styles/game.css';
 
@@ -152,7 +152,9 @@ export default function Game() {
                     <div className="row">
                         <div className="col-4 player-1  d-flex justify-content-center">
                             <ul className="player-wrapper">
-                                <h5 className="text-center mb-4">{player}</h5>
+                                <Link to={`/players/${userId}`} style={{ textDecoration: 'none' }}>
+                                    <h5 className="text-center mb-4 text-dark" >{player}</h5>
+                                </Link>
                                 <li className={`rock choice ${pick.rock}`} onClick={() => handleClick('rock')}>
                                     <img src="../../assets/images/batu.png" className="image-fluid" alt="Rock"/>
                                 </li>
