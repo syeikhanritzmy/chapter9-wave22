@@ -28,7 +28,7 @@ export default function ProfileEdit() {
                 email: data.email,
                 bio: data.bio,
                 score: data.score,
-                rank: data.rank,
+                url: "https://firebasestorage.googleapis.com/v0/b/fsw22-kelompok1.appspot.com/o/pexels-ron-lach-7848986.jpg?alt=media&token=8a222888-d8f9-4cf6-bc1f-9a744ab0bb5a",
             })
         });
     }, [])
@@ -61,15 +61,15 @@ export default function ProfileEdit() {
     return(
         <div className="profile-page">
              <div className='container h-100 d-flex justify-content-center align-items-center pt-4'>
-                <div className="card mb-3 h-80">
+                <div className="card bg-black mb-3 h-80">
                     <div className="row g-0">
                         <div className="col-md-5">
-                        <img src="../../assets/images/profile.jpg" className="img-fluid rounded-start" alt="..."/>
+                        <img src={player.url} className="img-fluid rounded-start" alt="..."/>
                         </div>
                         <div className="col-md-7 ps-4">
-                        <div className="card-body">
+                        <div className="card-body bg-dark text-white">
                             <h1 className="card-title mb-4">Edit Profile</h1>
-                            <Link className="mb-4" to={`/players/${userId}`}>Back</Link>
+                            
                             <form onSubmit={e => {handleSubmit(e)}}>
                                 <div className="my-3 row">
                                     <label htmlFor="nickname" className="col-sm-3 col-form-label" >Nickname</label>
@@ -95,7 +95,8 @@ export default function ProfileEdit() {
                                         <input type="text" readOnly className="form-control-plaintext" name="score" id="total-score" value={ player.score } onChange={handleChange}/>
                                     </div>
                                 </div>
-                                <button className='btn btn-success' type="submit">Save Profile</button>
+                                <button className='btn btn-success me-3' type="submit">Save Profile</button>
+                                <Link className="btn btn-outline-success" to={`/players/${userId}`}>Cancel</Link>
                                 
                             </form>
                         </div>
