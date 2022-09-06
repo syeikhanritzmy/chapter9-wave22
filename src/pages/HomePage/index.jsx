@@ -4,7 +4,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../../utils/firebase';
 import { getDatabase, ref, onValue } from "firebase/database";
 import { getAuth, onAuthStateChanged  } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../styles/homepage.css';
 export default function Homepage() {
   const [player, setPlayer] = useState('');
@@ -47,7 +47,7 @@ export default function Homepage() {
 
   return (
     <div id='home-page' className='bg-dark'>
-      <ButtonLogout click={handleSignOut} />
+      {/* <ButtonLogout click={handleSignOut} /> */}
       <div class="container my-4">
       <div id='home-page-hero' class=" text-white rounded">
         <div className="overlay p-4 p-md-5 mb-4">
@@ -65,7 +65,7 @@ export default function Homepage() {
           <strong class="d-inline-block mb-2 text-primary">Game</strong>
           <h3 class="mb-0 text-white">Rock Paper Scissors</h3>
           <p class="card-text mb-auto mt-2">Traditional Game: Play vs AI</p>
-          <a href="#" class="stretched-link">Play Now</a>
+          <Link to='/game/rps' class="stretched-link">Play Now</Link>
         </div>
         <div class="col-auto d-none d-lg-block">
           <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/people-playing-paper-rock-scissors-royalty-free-illustration-1583269312.jpg?crop=0.994xw:0.799xh;0.00160xw,0.195xh&resize=1600:*" alt="Rock Paper Scissors" width="200" height="250" />
