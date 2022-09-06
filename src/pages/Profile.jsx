@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, query, orderByChild } from "firebase/database";
 import { getAuth, onAuthStateChanged  } from "firebase/auth";
 import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -14,7 +14,6 @@ export default function Profile() {
 
     const auth = getAuth();
 
-
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -23,8 +22,13 @@ export default function Profile() {
             } 
         });
         const db = getDatabase();
-        const starCountRef = ref(db, '/users/' + userId);
-        onValue(starCountRef, (snapshot) => {
+        // const topUserPostsRef = query(ref(db, 'users'),orderByChild('score'));
+        // onValue(topUserPostsRef, (snapshot) => {
+        //     const data = snapshot.val();
+        //     console.log(data);
+        // });
+        const dataRef = ref(db, '/users/' + userId);
+        onValue(dataRef, (snapshot) => {
             const data = snapshot.val();
             console.log(data.score);
             setPlayer({
@@ -32,8 +36,8 @@ export default function Profile() {
                 email: data.email,
                 bio: data.bio,
                 score: data.score,
-                rank: Math.ceil(data.score / 128),
-                url: "https://firebasestorage.googleapis.com/v0/b/fsw22-kelompok1.appspot.com/o/pexels-ron-lach-7848986.jpg?alt=media&token=8a222888-d8f9-4cf6-bc1f-9a744ab0bb5a",
+                level: Math.ceil(data.score / 128),
+                url: data.url ?? "https://firebasestorage.googleapis.com/v0/b/fsw22-kelompok1.appspot.com/o/pexels-ron-lach-7848986.jpg?alt=media&token=8a222888-d8f9-4cf6-bc1f-9a744ab0bb5a",
             })
         });
     }, [])
@@ -60,7 +64,7 @@ export default function Profile() {
                             </div>
                             <div className="p-3 bg-success text-center skill-block">
                                 <h6>Level</h6>
-                                <h4>{player.rank}</h4>
+                                <h4>{player.level}</h4>
                             </div>
                             <div className="p-3 bg-warning text-center skill-block">
                                 <h6>Rank</h6>
