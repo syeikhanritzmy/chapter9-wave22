@@ -41,23 +41,29 @@ export default function ProfileEdit() {
             if (user) {
               const uid = user.uid;
               if (uid === userId){ 
-
-                const storage = getStorage();
-                const metadata = {
-                  contentType: 'image/jpeg'
-                }
-                const fileName = `profile/${file.name}`;
-                const reference = _ref(storage, fileName, metadata);
-                const upload = await uploadBytes(reference, file);
-                console.log(upload);
-                const url = await getDownloadURL(_ref(storage, fileName));
-                console.log(url);
                 const db = getDatabase();
+                if(file){
+                    console.log("masuk");
+                    const storage = getStorage();
+                    const metadata = {
+                      contentType: 'image/jpeg'
+                    }
+                    const fileName = `profile/${file.name}`;
+                    const reference = _ref(storage, fileName, metadata);
+                    const upload = await uploadBytes(reference, file);
+                    console.log(upload);
+                    
+                    const downloadUrl = await getDownloadURL(_ref(storage, fileName));
+                    console.log(downloadUrl);
+        
+                    update(ref(db, 'users/' + userId), {
+                        url: downloadUrl,
+                      });
+                }
                 update(ref(db, 'users/' + userId), {
                   username: e.target.username.value,
                   email: e.target.email.value,
                   bio: e.target.bio.value,
-                  url: url,
                 });
               }
             } 
