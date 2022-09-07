@@ -6,6 +6,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../../utils/firebase';
 import { ref, set } from 'firebase/database';
+import Swal from 'sweetalert2';
 import { uid } from 'uid';
 const registerState = {
   username: '',
@@ -14,6 +15,18 @@ const registerState = {
   bio: '',
   score: 0,
 };
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 2500,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  },
+});
 
 export default function Register() {
   const [user, setUser] = useState(registerState);
@@ -26,25 +39,27 @@ export default function Register() {
 
   const handleRegister = async () => {
     if ((username, password, email === '')) {
-      return alert('please fill out the form');
+      await Toast.fire({
+        icon: 'warning',
+        title: 'please fill in the column first',
+        timer: 1500,
+      });
     } else {
       if (password.length < 6) {
         alert('please input password 6 character');
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
         await writeDatabase();
-        await navigate('/homepage');
-        alert('create user');
-        auth.onAuthStateChanged((user) => {
-          console.log(user);
+        await Toast.fire({
+          icon: 'success',
+          title:
+            'register is successful and will be redirected to the homepage',
+          timer: 2400,
         });
+        await navigate('/homepage');
       }
     }
   };
-
-  auth.onAuthStateChanged((user) => {
-    console.log(user);
-  });
 
   const writeDatabase = () => {
     const uuid = uid();
