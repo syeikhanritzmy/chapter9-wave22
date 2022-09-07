@@ -26,11 +26,11 @@ function App() {
         <Route path="/players/:id" element={<Profile />} />
         <Route path="/players/edit/:id" element={<ProfileEdit />} />
         <Route path="/game/rps" element={<Game />} />
-        <Route path="/" element={<Landing name="Guest" />} />
         <Route path="login" element={<Login />} />
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/rank/:id" element={< Rank />}/>
+        <Route path="/" element={<Landing name="Guest" />} />
       </Routes>
        <Footer />
       </div>
