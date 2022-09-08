@@ -10,6 +10,7 @@ import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import Login from './pages/login/login';
 import Game from './pages/Game';
+import Games from './pages/Games';
 import Homepage from './pages/HomePage';
 import Register from './pages/login/Register';
 import Rank from "./pages/Rank"
@@ -26,10 +27,11 @@ function App() {
         <Route path="/players/:id" element={<Profile />} />
         <Route path="/players/edit/:id" element={<ProfileEdit />} />
         <Route path="/game/rps" element={<Game />} />
+        <Route path="/games" element={<Games />} />
         <Route path="login" element={<Login />} />
-        <Route path="/homepage" element={<Homepage />} />
+        <Route path="/homepage" element={<Landing />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/rank/:id" element={< Rank />}/>
+        <Route path="/detail/rps" element={< Rank />}/>
         <Route path="/" element={<Landing name="Guest" />} />
       </Routes>
        <Footer />
