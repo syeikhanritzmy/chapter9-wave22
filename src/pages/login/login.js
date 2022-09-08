@@ -1,10 +1,22 @@
-import { Formik, Form } from 'formik'; 
+import { Formik, Form } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import LoginInput from '../../components/inputs/loginInput';
+import Swal from 'sweetalert2';
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 2500,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  },
+});
 
 const loginState = {
   email: '',
@@ -41,9 +53,20 @@ export default function Login() {
 
   const AuthLogin = async () => {
     try {
-      const user = await signInWithEmailAndPassword(auth, email, password);
-      console.log(user);
-      console.log(await user.user.getIdToken());
+      if (!login) {
+        await Toast.fire({
+          icon: 'success',
+          title: 'signed in successfully',
+        });
+        const user = await signInWithEmailAndPassword(auth, email, password);
+        console.log(await user.user.getIdToken());
+      } else {
+        await Toast.fire({
+          icon: 'warning',
+          title: 'please fill in the column first',
+          timer: 1500,
+        });
+      }
     } catch (error) {
       console.log(error);
     }
