@@ -53,19 +53,19 @@ export default function Login() {
 
   const AuthLogin = async () => {
     try {
-      if (!login) {
+      if ((email, password === '')) {
+        await Toast.fire({
+          icon: 'warning',
+          title: 'please fill in the column first',
+          timer: 1500,
+        });
+      } else {
         await Toast.fire({
           icon: 'success',
           title: 'signed in successfully',
         });
         const user = await signInWithEmailAndPassword(auth, email, password);
         console.log(await user.user.getIdToken());
-      } else {
-        await Toast.fire({
-          icon: 'warning',
-          title: 'please fill in the column first',
-          timer: 1500,
-        });
       }
     } catch (error) {
       console.log(error);
