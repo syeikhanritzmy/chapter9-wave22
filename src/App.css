@@ -42,9 +42,7 @@
   flex-direction: column;
   min-height: 100%;
 }
-.Navbar {
-  min-width: 100vw;
-}
+
 .content-wrap {
   flex: 1;
 }
