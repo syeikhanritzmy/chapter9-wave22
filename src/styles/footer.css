@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap");
+.main-footer {
+  text-align: justify;
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  background-color: rgba(0, 0, 0, 0.9);
+  padding-top: 3em;
+  position: relative;
+  bottom: 0;
+
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+}
+
+Link,
+a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 1);
+}
+
+a:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+a:active {
+  color: #fff;
+}
+
+p {
+  text-align: end;
+  color: rgba(255, 255, 255, 0.75);
+}

@@ -1,12 +1,12 @@
 import React, { useEffect , useState} from 'react';
-import ButtonLogout from '../../components/buttons/buttonLogOut';
+import ButtonLogout from '../components/buttons/buttonLogOut';
 import { signOut } from 'firebase/auth';
-import { auth } from '../../utils/firebase';
+import { auth } from '../utils/firebase';
 import { getDatabase, ref, onValue } from "firebase/database";
 import { getAuth, onAuthStateChanged  } from "firebase/auth";
 import { Link, useNavigate } from 'react-router-dom';
-import '../../styles/homepage.css';
-export default function Homepage() {
+import '../styles/games.css';
+export default function Games() {
   const [player, setPlayer] = useState('');
   const navigate = useNavigate();
   const auth = getAuth();
@@ -46,10 +46,9 @@ export default function Homepage() {
   };
 
   return (
-    <div id='home-page' className='bg-dark'>
-      {/* <ButtonLogout click={handleSignOut} /> */}
+    <div id='games' className='bg-dark'>
       <div class="container my-4">
-      <div id='home-page-hero' class=" text-white rounded">
+      <div id='games-hero' class=" text-white rounded">
         <div className="overlay p-4 p-md-5 mb-4">
           <div class="col-md-6 px-0">
             <h3>Welcome {player.username}</h3>
@@ -75,10 +74,36 @@ export default function Homepage() {
     <div class="col-md-6">
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col p-4 d-flex flex-column position-static">
-          <strong class="d-inline-block mb-2 text-success">More Games</strong>
-          <h3 class="mb-0 text-white">Find More Interesting Games</h3>
+          <strong class="d-inline-block mb-2 text-success">Game</strong>
+          <h3 class="mb-0 text-white">Portal 2</h3>
           <p class="mb-auto mt-2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque, repudiandae.</p>
-          <a href="#" class="stretched-link">Explore Now</a>
+          <a href="#" class="stretched-link">Play Now</a>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+        <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=347&q=80" alt="Rock Paper Scissors" width="200" height="250" />
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-danger">Game</strong>
+          <h3 class="mb-0 text-white">The Legend of Zelda: Breath of the Wild</h3>
+          <p class="mb-auto mt-2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque, repudiandae.</p>
+          <a href="#" class="stretched-link">Play Now</a>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+        <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=347&q=80" alt="Rock Paper Scissors" width="200" height="250" />
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-warning">Game</strong>
+          <h3 class="mb-0 text-white">Super Mario World</h3>
+          <p class="mb-auto mt-2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque, repudiandae.</p>
+          <a href="#" class="stretched-link">Play Now</a>
         </div>
         <div class="col-auto d-none d-lg-block">
         <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=347&q=80" alt="Rock Paper Scissors" width="200" height="250" />
