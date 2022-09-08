@@ -17,12 +17,13 @@ export default function Navibar() {
         setUser(user);
       }
     })
-  }, [auth]);
+  }, []);
 
   const handleSignOut = async () => {
     try {
       console.log("signing out");
       await signOut(auth);
+      setUser(null);
       navigate('/login');
     } catch (error) {
       alert(error.message);
@@ -43,14 +44,17 @@ export default function Navibar() {
             />{" "}
           </Navbar.Brand>
           <Nav className="me-auto ">
-            <Nav.Link as={Link} to={"/"}>
+            <Nav.Link as={Link} to={"/homepage"}>
               Home
             </Nav.Link>
-            <Nav.Link as={Link} to={"/game/rps"}>
+            <Nav.Link as={Link} to="/games">
               Games
             </Nav.Link>
-            <Nav.Link as={Link} to="#about-us">
-              About
+            <Nav.Link as={Link} to="/detail/rps">
+              Top Scores
+            </Nav.Link>
+            <Nav.Link as={Link} to={"/game/rps"}>
+              Play RPS
             </Nav.Link>
           </Nav>
             { user ? 
