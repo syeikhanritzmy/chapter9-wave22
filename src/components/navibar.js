@@ -17,12 +17,13 @@ export default function Navibar() {
         setUser(user);
       }
     })
-  }, [auth]);
+  }, []);
 
   const handleSignOut = async () => {
     try {
       console.log("signing out");
       await signOut(auth);
+      setUser(null);
       navigate('/login');
     } catch (error) {
       alert(error.message);
