@@ -4,6 +4,19 @@ import { getAuth, onAuthStateChanged  } from "firebase/auth";
 import { getDownloadURL, getStorage, ref as _ref, uploadBytes} from 'firebase/storage'
 
 import {Link, useNavigate} from 'react-router-dom';
+import Swal from 'sweetalert2';
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 2500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
+  });
 
 export default function ProfileEdit() {
     const [player, setPlayer] = useState({
@@ -65,6 +78,10 @@ export default function ProfileEdit() {
                   email: e.target.email.value,
                   bio: e.target.bio.value,
                 });
+                await Toast.fire({
+                    icon: 'success',
+                    title: 'Profile Update Successfully',
+                  });
               }
             } 
         });
